@@ -303,7 +303,6 @@ export function UnifiedInsightCard({
   afterText,
   coreInsightLabel,
   coreInsightText,
-  coreInsightAccent,
 }: {
   label: string;
   beforeLabel: string;
