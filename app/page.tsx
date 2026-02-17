@@ -40,7 +40,7 @@ export default function Home() {
             Senior Product Designer
           </p>
           <h1
-            className="max-w-[680px] text-[38px] font-medium leading-[1.3] tracking-[-0.03em] text-[#1A1A1A]"
+            className="max-w-[680px] text-[28px] font-medium leading-[1.3] tracking-[-0.03em] text-[#1A1A1A] md:text-[38px]"
             style={{ lineHeight: 1.3 }}
           >
             I design for systems that can&apos;t afford to be wrong.
