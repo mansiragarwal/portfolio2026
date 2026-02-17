@@ -49,8 +49,9 @@ export default function Home() {
             className="mt-4 max-w-[540px] text-[15px] leading-[1.7] text-[#6B6360]"
             style={{ lineHeight: 1.7 }}
           >
-            Carnegie Mellon CS + HCI · New York City · 4 years in complex B2B
-            systems.
+            Carnegie Mellon CS + HCI · New York City ·
+            <br className="md:hidden" />
+            4 years in complex B2B systems.
           </p>
         </section>
 

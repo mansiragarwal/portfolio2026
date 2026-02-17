@@ -96,7 +96,9 @@ export function ReframeCard({
           <p className="text-[15px] font-medium text-[#1A1A1A]">{beforeText}</p>
         </div>
         <span className="hidden shrink-0 text-2xl text-[#C74B6F] md:inline" aria-hidden>→</span>
-        <span className="shrink-0 text-2xl text-[#C74B6F] md:hidden" aria-hidden>↓</span>
+        <div className="flex w-full justify-center md:hidden">
+          <span className="text-2xl text-[#C74B6F]" aria-hidden>↓</span>
+        </div>
         <div
           className="flex-1 rounded-lg bg-[#FDF0F3] p-5"
           style={{ padding: "20px 24px", borderRadius: "8px" }}
@@ -337,7 +339,9 @@ export function UnifiedInsightCard({
           <p className="text-[15px] font-medium text-[#1A1A1A]">{beforeText}</p>
         </div>
         <span className="hidden shrink-0 text-2xl text-[#C74B6F] md:inline" aria-hidden>→</span>
-        <span className="shrink-0 text-2xl text-[#C74B6F] md:hidden" aria-hidden>↓</span>
+        <div className="flex w-full justify-center md:hidden">
+          <span className="text-2xl text-[#C74B6F]" aria-hidden>↓</span>
+        </div>
         <div
           className="flex-1 rounded-lg bg-[#FDF0F3] p-5"
           style={{ padding: "20px 24px", borderRadius: "8px" }}
@@ -395,7 +399,7 @@ export function ComposabilityDemoGrid({
         {label}
       </p>
       <div
-        className="grid text-[13px]"
+        className="grid min-w-[360px] text-[13px]"
         style={{ gridTemplateColumns: "180px repeat(3, 1fr)" }}
       >
         <div
