@@ -17,7 +17,7 @@ export default function AboutPage() {
 
       <main className="mx-auto max-w-[900px] px-12">
         <h1
-          className="text-[28px] text-[#C74B6F] md:text-[38px]"
+          className="text-[28px] text-[#1A1A1A] md:text-[38px]"
           style={{
             fontFamily: "Helvetica Neue, Arial, sans-serif",
             marginTop: "60px",
