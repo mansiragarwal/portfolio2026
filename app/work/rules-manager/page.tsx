@@ -56,12 +56,12 @@ export default function RulesManagerPage() {
             Business users knew the underwriting rules cold but couldn&apos;t
             touch them without engineering. I audited the codebase, found three
             structural patterns hiding inside hundreds of rules, and designed
-            the constrained interfaces that cut product launch time from a year
-            to 90 days.
+            the constrained interfaces that cut product launch time from two
+            years to 90 days.
           </p>
           <StatsRow
             stats={[
-              { number: "1 yr → 90 days", label: "Product launch time" },
+              { number: "2 yrs → 90 days", label: "Product launch time" },
               { number: "3 patterns", label: "Found inside hundreds of rules" },
               { number: "Sole designer", label: "Embedded in engineering team" },
             ]}
@@ -70,7 +70,7 @@ export default function RulesManagerPage() {
 
         {/* 2. The Situation */}
         <SectionLabel first>The Situation</SectionLabel>
-        <SectionHeading>Launching a new insurance product took a year.</SectionHeading>
+        <SectionHeading>Launching a new insurance product took two years.</SectionHeading>
         <BodyP>
           Business users (product owners and analysts) at Haven Technology
           maintained detailed checklists of every underwriting requirement: if
@@ -102,9 +102,24 @@ export default function RulesManagerPage() {
           access.
         </BodyP>
         <BodyP>
-          I audited the existing codebase. What I found: engineers were building
-          each rule as a custom implementation, with bespoke logic for every
-          condition. Hundreds of rules, each coded as if it were unique.
+          I started by mapping the full underwriting org to understand who knew
+          what and who was blocked from acting on what they knew. Then I
+          audited the existing codebase and the business users&apos; own
+          artifacts: their annotated application questions, their spreadsheets
+          mapping rules to conditions, and the handwritten notes they used to
+          track underwriting logic. Engineers were building each rule as a
+          custom implementation with bespoke logic. Hundreds of rules, each
+          coded as if it were unique.
+        </BodyP>
+        <ImageBlock
+          label="Before: How business users tracked underwriting rules"
+          src={getImage("rules-before-artifacts", "/images/rules-before-artifacts.png")}
+          caption="Business users maintained detailed spreadsheets mapping application questions to underwriting logic. They annotated conditions, lookback periods, and edge cases by hand. They knew the rules cold but had no way to implement them without filing tickets to engineering."
+        />
+        <BodyP>
+          But they weren&apos;t unique. When I looked at the underlying
+          structure rather than the surface-level variety, nearly every rule
+          was a variation on one of three patterns:
         </BodyP>
         <CoreInsightCallout label="Core insight">
           Hundreds of rules → <span className="text-[#C74B6F]">3 patterns</span>
@@ -137,22 +152,14 @@ export default function RulesManagerPage() {
           builder can&apos;t.
         </BodyP>
 
-        {/* 4. Image: Freestyle mode */}
-        <ImageBlock
-          label="Before: Engineering's rule configuration"
-          src={getImage("rules-freestyle-before", "/images/rules-freestyle-before.png")}
-          caption="This is what configuring a rule looked like for engineers. Every rule was a custom implementation with bespoke logic. Business users couldn't touch this without filing a ticket."
-        />
-
-        {/* 5. The Intervention */}
+        {/* 4. The Intervention */}
         <SectionLabel>The Intervention</SectionLabel>
         <SectionHeading>Constraint over flexibility.</SectionHeading>
         <BodyP>
-          Instead of building a flexible form builder that could model
-          &quot;anything,&quot; I designed three specific rule-creation
-          interfaces, each tailored to one structural pattern. Each interface
-          constrained what users could input in ways that matched how the
-          underlying logic actually worked.
+          The engineering team&apos;s instinct was to build a general-purpose
+          rule builder that could model anything. I argued for the opposite:
+          three specific rule-creation interfaces, each tailored to one
+          structural pattern.
         </BodyP>
         <ReframeCard
           label="Design philosophy"
@@ -162,11 +169,13 @@ export default function RulesManagerPage() {
           afterText="Three constrained interfaces, each designed for one structural pattern"
         />
         <BodyP>
-          For Standard rules: simple condition/outcome pairs with dropdowns for
-          data types and operators. For Lookback rules: the same, plus a time
-          window selector that enforced valid lookback periods. For Aggregation
-          rules: a different interface entirely that let users select which
-          existing rules to aggregate and define thresholds.
+          Each interface constrained what users could input in ways that matched
+          how the underlying logic actually worked. A Standard rule form
+          offered condition/outcome pairs with dropdowns for valid data types
+          and operators. A Lookback rule form added a time window selector
+          that enforced valid lookback periods. Aggregation rules got a
+          different interface entirely, letting users select which existing
+          rules to aggregate and define thresholds.
         </BodyP>
         <TwoImageRow
           left={{
@@ -183,18 +192,28 @@ export default function RulesManagerPage() {
           }}
         />
         <BodyP>
-          I also designed Freestyle mode: a structured view of the raw rule logic
-          for engineers who needed to handle edge cases the constrained
-          interfaces couldn&apos;t cover. This was a deliberate scoping
-          decision. Rather than trying to make the business-facing UI handle
-          100% of cases, I covered ~80% with the constrained interfaces and
-          gave engineers a faster frontend for the rest.
+          This covered roughly 80% of underwriting rules. For the remaining
+          edge cases with logic too complex for the constrained forms, I
+          designed Freestyle mode: a structured frontend that let engineers
+          configure rules faster without dropping back into raw code. This was
+          a deliberate scoping decision. Rather than trying to make the
+          business-facing UI handle every possible case, I drew a clear line:
+          constrained interfaces for the patterns that repeated, and a faster
+          engineering tool for the exceptions.
         </BodyP>
+        <ImageBlock
+          label="Freestyle mode: engineering's fast path for edge cases"
+          src={getImage("rules-freestyle-before", "/images/rules-freestyle-before.png")}
+          caption="For the ~15-20% of rules too complex for the constrained forms, Freestyle mode gave engineers a structured frontend. Faster than raw code, without compromising the simplicity of the business-facing interfaces."
+        />
         <BodyP>
-          The design went through 5-6 major iterations, from early explorations
-          of basic if-then toggles, through dependency flow diagrams, to the
-          final constrained forms. Each iteration was tested against real
-          underwriting rules from Haven Simple, their main new product.
+          The design went through five or six major iterations, each tested
+          against real underwriting rules from Haven Simple. Early versions
+          explored basic if-then toggles, which broke down as soon as rules
+          got conditional on time windows or on the outputs of other rules.
+          That&apos;s what forced the structural-pattern approach.
+          Surface-level simplification wasn&apos;t enough. The tool needed to
+          understand the types of rules it was helping users build.
         </BodyP>
 
         {/* 6. Image: Workflow view */}
@@ -217,31 +236,33 @@ export default function RulesManagerPage() {
         <BodyP>
           Business users could configure the majority of underwriting rules
           directly, without filing tickets or waiting for engineering cycles.
-          The dependency between rules became visible through the workflow view,
+          Engineers kept a faster path for edge cases through Freestyle mode,
+          but were no longer the bottleneck for routine rule changes. The
+          dependency between rules became visible through the Workflow view,
           so users could understand how rules interacted rather than treating
           each one as isolated.
         </BodyP>
 
         {/* 8. The Outcome */}
         <SectionLabel>The Outcome</SectionLabel>
-        <SectionHeading>Haven Simple: 90 days instead of a year.</SectionHeading>
+        <SectionHeading>Haven Simple: 90 days instead of two years.</SectionHeading>
         <BigStatCallout
-          number="1 year → 90 days"
+          number="2 years → 90 days"
           label="Product configuration time for Haven Simple"
         />
         <BodyP>
           Haven Simple was configured through the Rules Manager in approximately
-          90 days, compared to the roughly year-long timeline previous products
+          90 days, compared to the roughly two-year timeline previous products
           had required. Business users adopted the tool for rule
-          configuration. Engineering tickets for routine rule changes dropped
-          significantly.
+          configuration, and engineering tickets for routine rule changes
+          dropped significantly.
         </BodyP>
         <BodyP>
           The company dissolved before the tool reached full commercial rollout
-          across multiple products. But the system worked: it was validated
-          against a real product (Haven Simple), used by actual business
-          stakeholders, and demonstrated that the structural-pattern approach
-          could handle real-world underwriting complexity.
+          across multiple products. But the system worked: validated against a
+          real product, used by actual business stakeholders, and demonstrated
+          that the structural-pattern approach could handle real-world
+          underwriting complexity.
         </BodyP>
 
         {/* 9. My Role */}
@@ -249,12 +270,12 @@ export default function RulesManagerPage() {
         <SectionHeading>Sole designer. Codebase auditor. System architect.</SectionHeading>
         <BodyP>
           I was the sole designer embedded in an engineering team. I personally
-          audited the codebase to identify the three rule patterns, which was
-          the diagnostic move that shaped the entire product direction. I
-          designed every iteration of the rule configuration UI, tested against
-          real underwriting rules, and made the scoping decision to split
-          between constrained business interfaces and Freestyle engineering
-          mode.
+          audited the codebase and the business users&apos; own artifacts to
+          identify the three rule patterns, which was the diagnostic move that
+          shaped the entire product direction. I designed every iteration of
+          the rule configuration UI, tested against real underwriting rules,
+          and made the scoping decision to split between constrained business
+          interfaces and Freestyle engineering mode.
         </BodyP>
         <BodyP>
           The call I owned: choosing constraint over flexibility. The engineering
@@ -267,12 +288,15 @@ export default function RulesManagerPage() {
         {/* 10. The Pattern */}
         <PatternBox label="The Pattern">
           When I looked at hundreds of seemingly unique rules, I found three
-          patterns. This is a move I make consistently: instead of designing for
-          the surface-level variety of a problem, I look for the structural
-          patterns underneath and design constrained systems around those
-          patterns. Constrained is the key word. The instinct in tool design is
-          to build for maximum flexibility. But flexibility without structure
-          just moves the complexity from one place to another.
+          structural patterns. This is a move I make consistently: instead of
+          designing for the surface-level variety of a problem, I look for the
+          structural patterns underneath and design constrained systems around
+          those patterns. The instinct in tool design is to build for maximum
+          flexibility. But flexibility without structure just moves the
+          complexity from one place to another. Domain constraint beats
+          general-purpose flexibility when the problem space has hidden
+          structure. The capability I bring is seeing that structure before the
+          team builds the wrong abstraction.
         </PatternBox>
 
         <BackLink />

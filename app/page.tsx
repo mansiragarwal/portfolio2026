@@ -16,8 +16,8 @@ const caseStudies = [
     tag: "0→1 Product",
     title: "Rules Manager",
     description:
-      "Collapsed hundreds of ad-hoc underwriting rules into three structural patterns, cutting insurance product launch time from over a year to 90 days.",
-    metric: "Launch time: 1 year → 90 days",
+      "Collapsed hundreds of ad-hoc underwriting rules into three structural patterns, cutting insurance product launch time from over two years to 90 days.",
+    metric: "Launch time: 2 years → 90 days",
     href: "/work/rules-manager",
   },
 ];
