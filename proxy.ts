@@ -14,7 +14,7 @@ async function getExpectedToken(): Promise<string> {
     .join("");
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // Skip protection if no password is set (e.g. local dev without env)
   if (!process.env.PORTFOLIO_PASSWORD) {
     return NextResponse.next();
