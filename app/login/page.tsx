@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -25,10 +24,13 @@ function LoginForm() {
       const data = await res.json();
       if (!res.ok) {
         setError(data.error ?? "Invalid password");
+        setLoading(false);
         return;
       }
-      router.push(redirect);
-      router.refresh();
+      // Full page redirect so the cookie is sent on the next request, and we
+      // replace the login page in history so Back goes to the previous page (e.g. home)
+      window.location.replace(redirect);
+      return;
     } catch {
       setError("Something went wrong");
     } finally {
