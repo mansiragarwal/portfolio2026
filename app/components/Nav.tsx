@@ -37,6 +37,12 @@ export function Nav() {
           >
             About Me
           </Link>
+          <Link
+            href="/api/auth/logout"
+            className="text-[13px] text-[#A09893] transition-colors hover:text-[#1A1A1A]"
+          >
+            Log out
+          </Link>
         </div>
       </nav>
     </header>
