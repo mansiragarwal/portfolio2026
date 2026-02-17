@@ -146,9 +146,11 @@ export function PullQuote({
 export function CoreInsightCallout({
   label,
   children,
+  textSize = "24px",
 }: {
   label: string;
   children: React.ReactNode;
+  textSize?: string;
 }) {
   return (
     <div
@@ -161,7 +163,9 @@ export function CoreInsightCallout({
       >
         {label}
       </p>
-      <p className="text-[24px] font-medium text-[#1A1A1A]">{children}</p>
+      <p className="font-medium text-[#1A1A1A] leading-[1.4]" style={{ fontSize: textSize }}>
+        {children}
+      </p>
     </div>
   );
 }
@@ -239,16 +243,22 @@ export function BackLink() {
   );
 }
 
-export function SectionHeading({ children }: { children: React.ReactNode }) {
+export function SectionHeading({
+  children,
+  compact,
+}: {
+  children: React.ReactNode;
+  compact?: boolean;
+}) {
   return (
     <h2
       className="font-medium text-[#1A1A1A]"
       style={{
-        fontSize: "32px",
-        letterSpacing: "-0.03em",
+        fontSize: compact ? "28px" : "32px",
+        letterSpacing: compact ? "-0.02em" : "-0.03em",
         lineHeight: 1.2,
         marginTop: 0,
-        marginBottom: "32px",
+        marginBottom: compact ? "16px" : "32px",
       }}
     >
       {children}
@@ -525,6 +535,34 @@ export function ThreePatternsCard({
           <p
             className="mb-1 text-[16px] font-semibold text-[#1A1A1A]"
             style={{ marginBottom: "4px" }}
+          >
+            {item.title}
+          </p>
+          <p className="text-[14px] leading-[1.6] text-[#6B6360]">{item.description}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function TwoSystemCard({
+  items,
+}: {
+  items: { title: string; description: string }[];
+}) {
+  return (
+    <div
+      className="my-6 rounded-[10px] border border-[#EAE4DE] bg-[#FFFFFF] p-7"
+      style={{ margin: "24px 0", padding: "32px 28px" }}
+    >
+      {items.map((item, i) => (
+        <div key={item.title}>
+          {i > 0 && (
+            <hr className="border-[#EAE4DE]" style={{ margin: "20px 0", borderColor: "#EAE4DE" }} />
+          )}
+          <p
+            className="mb-1.5 text-[16px] font-semibold text-[#1A1A1A]"
+            style={{ marginBottom: "6px" }}
           >
             {item.title}
           </p>
