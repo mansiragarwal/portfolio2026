@@ -51,7 +51,7 @@ export default function Home() {
           >
             Carnegie Mellon CS + HCI · New York City ·
             <br className="md:hidden" />
-            4 years in complex B2B systems.
+            {" "}4 years in complex B2B systems.
           </p>
         </section>
 
