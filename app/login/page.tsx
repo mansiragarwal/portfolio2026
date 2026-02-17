@@ -45,7 +45,7 @@ function LoginForm() {
           Enter password
         </h1>
         <p className="mb-6 text-[15px] text-[#6B6360]">
-          This portfolio is password protected.
+          This case study is password protected.
         </p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
