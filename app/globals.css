@@ -1,26 +1,50 @@
 @import "tailwindcss";
 
+/* Pecita from public/fonts/pecita/Pecita.otf */
+@font-face {
+  font-family: "Pecita";
+  src: url("/fonts/pecita/Pecita.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #faf7f4;
+  --foreground: #1a1a1a;
+  --card-bg: #ffffff;
+  --card-border: #eae4de;
+  --card-border-hover: #c74b6f;
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b6360;
+  --text-muted: #a09893;
+  --accent: #c74b6f;
+  --accent-bg: #fdf0f3;
+  --tag-bg: #f3efeb;
+  --cta-hover: #b3405f;
+  --font-logo: "Pecita", cursive;
+  --font-sans: "Helvetica Neue", Arial, sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-card: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-card-border-hover: var(--card-border-hover);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-bg: var(--accent-bg);
+  --color-tag-bg: var(--tag-bg);
+  --color-cta-hover: var(--cta-hover);
+  --font-sans: var(--font-sans);
+  --font-logo: var(--font-logo);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }
