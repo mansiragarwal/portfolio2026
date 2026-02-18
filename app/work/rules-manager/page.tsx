@@ -47,9 +47,9 @@ function BodyP({ children, last }: { children: React.ReactNode; last?: boolean }
   );
 }
 
-function ImageBlockPerm({ label, src, caption }: { label: string; src: string; caption: string }) {
+function ImageBlockPerm({ label, src, caption, margin = "48px 0" }: { label: string; src: string; caption: string; margin?: string }) {
   return (
-    <div className="my-12" style={{ margin: "48px 0" }}>
+    <div className="my-12" style={{ margin }}>
       <p
         className="mb-3.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#A09893]"
         style={{ marginBottom: "14px" }}
@@ -212,10 +212,10 @@ export default function RulesManagerPage() {
             style={{ marginBottom: "48px" }}
           >
             Business users knew the underwriting rules cold but couldn&apos;t touch
-            them without engineering. I audited the codebase, found three
-            structural patterns hiding inside hundreds of rules, and designed the
-            constrained interfaces that cut product launch time from a year to 90
-            days.
+            them without engineering. I audited the codebase, mapped three
+            incompatible mental models, found three structural patterns hiding
+            inside hundreds of rules, and designed the constrained interfaces
+            that cut product launch time from a year to 90 days.
           </p>
           <div
             className="flex flex-col border-t border-b border-[#EAE4DE] py-8 md:flex-row md:justify-center"
@@ -245,30 +245,29 @@ export default function RulesManagerPage() {
           </div>
         </section>
 
-        {/* 2. Image: Freestyle (before) */}
+        {/* 2. Image: The business user spreadsheet */}
         <ImageBlockPerm
-          label="Before: Engineering's rule configuration"
-          src={getImage("rules-freestyle-before", "/images/rules-freestyle-before.png")}
-          caption="This is what configuring a rule looked like for engineers. Every rule was a custom implementation with bespoke logic. Business users couldn't touch this without filing a ticket."
+          label="Before: The business user rule specification"
+          src={getImage("rules-before-spreadsheet", "/images/rules-before-spreadsheet.png")}
+          caption="The document business users handed to engineering. Every underwriting requirement written out in plain language: conditions, responses, edge cases, notes. Accurate, detailed, and completely inaccessible to the system that needed to run it."
         />
 
         {/* 3. The Situation */}
         <Section label="The Situation" heading="Launching a new insurance product took a year.">
           <BodyP>
-            Business users (product owners and analysts) at Haven Technology
-            maintained detailed checklists of every underwriting requirement: if
-            the applicant is in the armed forces, decline. If BMI is above a
-            certain threshold, adjust the rate class. If they&apos;ve had a
-            specific diagnosis within a lookback period, flag for review. They
-            knew the logic cold.
+            Business users at Haven Technology were the domain experts. Product
+            owners and analysts with 20+ years in the industry, they had shaped
+            many products and knew the underwriting logic cold: if the applicant
+            is in the armed forces, decline. If BMI is above a certain threshold,
+            adjust the rate class. If they&apos;ve had a specific diagnosis within
+            a lookback period, flag for review.
           </BodyP>
           <BodyP>
-            But every change required a Jira ticket to engineering. Engineers
-            translated those requirements into nested if-then trees in code. The
-            more complicated a rule, the longer it took to code correctly with all
-            the edge cases. Miscommunication between a business requirement and
-            its code implementation meant potential underwriting errors, which in
-            insurance is a serious risk.
+            But none of that knowledge could reach production without going
+            through engineering. Business users wrote requirements in spreadsheets
+            and documents. Engineers translated those into nested if-then trees in
+            code. Every translation was an opportunity for error. In insurance, an
+            underwriting error is a serious risk.
           </BodyP>
           <div className="py-10" style={{ padding: "40px 0" }}>
             <p
@@ -281,21 +280,52 @@ export default function RulesManagerPage() {
           </div>
           <BodyP last>
             Haven Technology&apos;s leadership wanted to sell more insurance
-            products faster. The existing workflow was the bottleneck.
+            products faster. The knowledge existed. The bottleneck was the
+            distance between knowing and shipping.
           </BodyP>
         </Section>
 
         {/* 4. The Diagnosis */}
-        <Section label="The Diagnosis" heading="Hundreds of unique rules. Three structural patterns.">
+        <Section label="The Diagnosis" heading="The same problem, described in three incompatible languages.">
           <BodyP>
             The obvious framing was &quot;business users can&apos;t self-serve, so
-            build them a form builder.&quot; But the problem was deeper than
-            access.
+            build them a form builder.&quot; But before designing anything, I
+            needed to understand how different people in the system were actually
+            thinking about the problem.
           </BodyP>
           <BodyP>
-            I audited the existing codebase. What I found: engineers were
-            building each rule as a custom implementation, with bespoke logic for
-            every condition. Hundreds of rules, each coded as if it were unique.
+            I audited three artifacts: the codebase, the business user
+            spreadsheets, and the actual insurance application forms. The same
+            underwriting logic appeared in all three, described completely
+            differently each time. That wasn&apos;t just an access problem. It was
+            a translation problem, and it was happening at every handoff.
+          </BodyP>
+          <ImageBlockPerm
+            label="Discovery: six stakeholders, six mental models"
+            src={getImage("rules-diagnosis-mental-models", "/images/rules-diagnosis-mental-models.png")}
+            caption="Each person's map of how the Rules Manager should work. Adam (dev), Katherine, Thomas, Norm (PMs), Kristen and Laura (business users) — same tool, fundamentally different mental models of what it was for and how it would be used."
+            margin="32px 0"
+          />
+          <BodyP>
+            The business users were the source of truth. They had the deepest
+            domain knowledge, but they were used to working without guardrails:
+            docs, spreadsheets, no structure enforced. The PMs would be the first
+            real users of the tool, translating between business intent and
+            production. The developers were the current gatekeepers and would
+            remain necessary for edge cases the tool couldn&apos;t cover.
+          </BodyP>
+          <ReframeInline
+            beforeLabel="Before"
+            beforeText="Why can't business users just configure the rules directly?"
+            afterLabel="After"
+            afterText="What shared structure can three incompatible mental models all map onto?"
+          />
+          <BodyP>
+            The workshop brought all three groups together to surface where their
+            models diverged. What emerged: the codebase wasn&apos;t as custom as
+            it looked. Beneath hundreds of seemingly unique rules were three
+            structural patterns. That finding became the foundation of the entire
+            product.
           </BodyP>
           <div
             className="my-7 rounded-[10px] border border-[#EAE4DE] bg-[#FFFFFF] p-7 text-center"
@@ -331,23 +361,29 @@ export default function RulesManagerPage() {
             </p>
           </div>
           <BodyP last>
-            This was the key diagnostic insight: the business didn&apos;t need a
-            general-purpose rule builder. They needed constrained interfaces
-            designed around these three structural patterns. Constrained was the
-            point. A form that knows it&apos;s building a Lookback rule can guide
-            the user, validate inputs, and prevent errors in ways a generic
-            builder can&apos;t.
+            This was the structural layer all three mental models could map onto.
+            The business user&apos;s plain-language checklist, the PM&apos;s
+            configuration workflow, the developer&apos;s code logic (each was just
+            a different representation of the same three patterns).
           </BodyP>
         </Section>
 
         {/* 5. The Intervention */}
-        <Section label="The Intervention" heading="Constraint over flexibility.">
+        <Section label="The Intervention" heading="Build for the translator first. Abstract toward the expert.">
           <BodyP>
-            Instead of building a flexible form builder that could model
-            &quot;anything,&quot; I designed three specific rule-creation
-            interfaces, each tailored to one structural pattern. Each interface
-            constrained what users could input in ways that matched how the
-            underlying logic actually worked.
+            Jumping straight to a business-user-facing tool wasn&apos;t the right
+            move. Business users were used to working without guardrails, in docs
+            and spreadsheets, with no enforced structure. Designing a tool that
+            fit their existing mental model would take significant research and
+            iteration (time the product didn&apos;t have).
+          </BodyP>
+          <BodyP>
+            Instead, I designed the first version for product managers: people
+            who understood both the business logic and the technical structure,
+            and who would act as the translation layer. Getting the PM-facing tool
+            right first meant validating the structural patterns against real
+            underwriting rules before investing in the more abstracted
+            business-user interface.
           </BodyP>
           <div
             className="my-6 rounded-[10px] border border-[#EAE4DE] bg-[#FFFFFF] p-7"
@@ -361,77 +397,83 @@ export default function RulesManagerPage() {
             </p>
             <div className="flex flex-col items-stretch gap-4 md:flex-row md:items-center md:gap-5">
               <div className="flex-1 rounded-lg bg-[#F3EFEB] p-5" style={{ padding: "20px 24px", borderRadius: "8px" }}>
-                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#A09893]" style={{ marginBottom: "8px" }}>Before</p>
-                <p className="text-[14px] font-medium text-[#1A1A1A]">A general-purpose rule builder that can model anything</p>
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#A09893]" style={{ marginBottom: "8px" }}>The instinct</p>
+                <p className="text-[14px] font-medium text-[#1A1A1A]">Build the most abstracted, business-user-friendly tool first</p>
               </div>
               <span className="hidden shrink-0 text-2xl text-[#C74B6F] md:inline" aria-hidden>→</span>
               <div className="flex w-full justify-center md:hidden">
                 <span className="text-2xl text-[#C74B6F]" aria-hidden>→</span>
               </div>
               <div className="flex-1 rounded-lg bg-[#FDF0F3] p-5" style={{ padding: "20px 24px", borderRadius: "8px" }}>
-                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#C74B6F]" style={{ marginBottom: "8px" }}>After</p>
-                <p className="text-[14px] font-medium text-[#1A1A1A]">Three constrained interfaces, each designed for one structural pattern</p>
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#C74B6F]" style={{ marginBottom: "8px" }}>The decision</p>
+                <p className="text-[14px] font-medium text-[#1A1A1A]">Validate the structural patterns with PMs first, then abstract toward business users</p>
               </div>
             </div>
           </div>
           <BodyP>
-            For Standard rules: simple condition/outcome pairs with dropdowns for
-            data types and operators. For Lookback rules: the same, plus a time
-            window selector that enforced valid lookback periods. For Aggregation
-            rules: a different interface entirely that let users select which
-            existing rules to aggregate and define thresholds.
+            For each of the three patterns, I designed a constrained interface
+            that matched how that type of rule actually worked. Each interface
+            limited what users could input in ways that prevented the translation
+            errors that had been causing underwriting mistakes.
           </BodyP>
           <TwoUpImages
             left={{
-              label: "After: Standard rule (constrained form)",
-              src: getImage("rules-standard-after", "/images/rules-standard-after.png"),
+              label: "Standard rule (constrained form)",
+              src: getImage("rules-after-standard", "/images/rules-after-standard.png"),
               caption:
-                "A Standard rule: condition → decision → output. The form constrains inputs to valid options. A business user can configure this in minutes.",
+                "A Standard rule: condition → decision → output. The form constrains inputs to valid options. A PM can configure this in minutes without filing a ticket.",
             }}
             right={{
-              label: "After: Lookback rule (constrained form)",
-              src: getImage("rules-lookback-after", "/images/rules-lookback-after.png"),
+              label: "Lookback rule (constrained form)",
+              src: getImage("rules-after-lookback", "/images/rules-after-lookback.png"),
               caption:
-                "A Lookback rule adds a time window and property checks. The interface enforces valid lookback periods automatically.",
+                "A Lookback rule adds a time window and property checks. The interface enforces valid lookback periods automatically — a class of error that previously required careful manual QA.",
             }}
           />
           <BodyP>
-            I also designed Freestyle mode: a structured view of the raw rule
-            logic for engineers who needed to handle edge cases the constrained
-            interfaces couldn&apos;t cover. This was a deliberate scoping
-            decision. Rather than trying to make the business-facing UI handle
-            100% of cases, I covered ~80% with the constrained interfaces and gave
-            engineers a faster frontend for the rest.
+            I also designed Freestyle mode for developers: a structured frontend
+            for the 15-20% of rules too complex for the constrained interfaces.
+            This wasn&apos;t a concession (it was a deliberate architectural
+            decision). Keeping developers in the system for genuinely complex
+            edge cases was the right call. Freestyle gave them a faster, more
+            structured way to do that work without returning to raw code.
           </BodyP>
+          <ImageBlockPerm
+            label="Freestyle mode: for engineers, for edge cases"
+            src={getImage("rules-before-freestyle", "/images/rules-before-freestyle.png")}
+            caption="The developer view. Not a workaround — a deliberate part of the system. Engineers handle the 15-20% of rules too complex for the constrained interfaces, with a structured frontend rather than raw code."
+            margin="36px 0"
+          />
           <BodyP last>
             The design went through 5-6 major iterations, from early explorations
-            of basic if-then toggles, through dependency flow diagrams, to the
+            of basic if-then toggles through dependency flow diagrams to the
             final constrained forms. Each iteration was tested against real
-            underwriting rules from Haven Simple, their main new product.
+            underwriting rules from Haven Simple.
           </BodyP>
         </Section>
 
         {/* 6. Image: Workflow view */}
         <ImageBlockPerm
           label="Rule dependencies made visible"
-          src={getImage("rules-workflow", "/images/rules-workflow.png")}
-          caption="The Workflow view made rule dependencies visible for the first time. Business users could see how rules connected and executed in sequence, rather than treating each one as isolated."
+          src={getImage("rules-workflow-view", "/images/rules-workflow-view.png")}
+          caption="The Workflow view made rule execution order visible for the first time. Business users could see how rules connected and sequenced, rather than treating each one as isolated."
         />
 
         {/* 7. What Changed */}
-        <Section label="What Changed" heading="Business users could configure rules directly.">
+        <Section label="What Changed" heading="The translation layer became the tool.">
           <ReframeInline
             beforeLabel="Before"
-            beforeText="Write requirement → file ticket → engineer codes it → QA → deploy"
+            beforeText="Write requirement → file ticket → engineer translates → QA → deploy"
             afterLabel="After"
-            afterText="Configure directly in the tool in a single session"
+            afterText="Configure directly in a single session, with the structure enforced by the form"
           />
           <BodyP last>
-            Business users could configure the majority of underwriting rules
+            Product managers could configure the majority of underwriting rules
             directly, without filing tickets or waiting for engineering cycles.
-            The dependency between rules became visible through the workflow view,
-            so users could understand how rules interacted rather than treating
-            each one as isolated.
+            Rule dependencies became visible through the workflow view, so the
+            team could understand how rules interacted rather than treating each
+            one as isolated. Developers remained in the loop for genuinely
+            complex edge cases (by design, not by default).
           </BodyP>
         </Section>
 
@@ -451,35 +493,36 @@ export default function RulesManagerPage() {
           <BodyP>
             Haven Simple was configured through the Rules Manager in approximately
             90 days, compared to the roughly year-long timeline previous products
-            had required. Business users adopted the tool for rule configuration.
-            Engineering tickets for routine rule changes dropped significantly.
+            had required. Product managers adopted the tool for rule
+            configuration. Engineering tickets for routine rule changes dropped
+            significantly.
           </BodyP>
           <BodyP last>
-            The company dissolved before the tool reached full commercial rollout
-            across multiple products. But the system worked: it was validated
-            against a real product (Haven Simple), used by actual business
-            stakeholders, and demonstrated that the structural-pattern approach
-            could handle real-world underwriting complexity.
+            The company dissolved before the tool reached full commercial rollout.
+            But the system worked: validated against a real product, used by
+            actual stakeholders, and structured to progressively abstract toward
+            business users as the next phase. The 90-day timeline was the proof
+            of concept for that approach.
           </BodyP>
         </Section>
 
         {/* 9. My Role */}
-        <Section label="My Role" heading="Sole designer. Codebase auditor. System architect.">
+        <Section label="My Role" heading="Sole designer. Codebase auditor. Sequencing strategist.">
           <BodyP>
             I was the sole designer embedded in an engineering team. I personally
-            audited the codebase to identify the three rule patterns, which was
-            the diagnostic move that shaped the entire product direction. I
-            designed every iteration of the rule configuration UI, tested against
-            real underwriting rules, and made the scoping decision to split
-            between constrained business interfaces and Freestyle engineering
-            mode.
+            audited the codebase, the business user spreadsheets, and the
+            insurance application forms (the diagnostic work that revealed the
+            three-mental-models problem before a single screen was designed). I
+            facilitated the workshop that surfaced where those models diverged,
+            designed every iteration of the rule configuration UI, and tested
+            each against real underwriting rules from Haven Simple.
           </BodyP>
           <BodyP last>
-            The call I owned: choosing constraint over flexibility. The
-            engineering team&apos;s instinct was to build a general-purpose rule
-            builder. I argued that understanding the domain well enough to
-            constrain the tool was the higher-leverage move, and the 90-day
-            Haven Simple configuration validated that bet.
+            The call I owned: sequencing toward business users rather than
+            jumping to them. The instinct was to build the most accessible tool
+            first. I argued that validating the structural patterns with PMs first
+            was lower risk and would produce a better business-user tool in the
+            long run. The 90-day Haven Simple configuration validated that bet.
           </BodyP>
         </Section>
 
@@ -495,13 +538,15 @@ export default function RulesManagerPage() {
             The Pattern
           </p>
           <p className="text-[17px] leading-[1.65] text-[#1A1A1A]">
-            When I looked at hundreds of seemingly unique rules, I found three
-            patterns. This is a move I make consistently: instead of designing
-            for the surface-level variety of a problem, I look for the
-            structural patterns underneath and design constrained systems around
-            those patterns. Constrained is the key word. The instinct in tool
-            design is to build for maximum flexibility. But flexibility without
-            structure just moves the complexity from one place to another.
+            When I encounter complex domain knowledge trapped in the wrong
+            format, I look for the structural layer underneath before designing
+            any interface. The business users had 20+ years of expertise encoded
+            in spreadsheets. The developers had that same logic encoded in
+            bespoke code. Neither representation was wrong (they just couldn&apos;t
+            talk to each other). Finding the three patterns that both
+            representations shared made it possible to design a system that
+            honored all three mental models without trying to collapse them into
+            one.
           </p>
         </div>
 
