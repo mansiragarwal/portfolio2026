@@ -421,7 +421,7 @@ export default function PermissionsPage() {
               label: "After: Edit User Role (internal)",
               src: getImage("permissions-internal-role", "/images/permissions-internal-role.png"),
               caption:
-                "Internal roles composed from capability-access combinations. New roles need no new architecture.",
+                "User roles composed from capability-access combinations. New roles need no new architecture.",
             }}
             right={{
               label: "After: Invite Team Member to Site",
