@@ -7,6 +7,7 @@ const navLinks = [
   { href: "/files/Mansi%20Agarwal%20Resume%202026.pdf", label: "Resume", external: true },
   { href: "https://www.linkedin.com/in/mansi-r-agarwal/", label: "LinkedIn", external: true },
   { href: "/about", label: "About Me", external: false },
+  { href: "/experiments", label: "Experiments", external: false },
 ];
 
 export function Nav() {
