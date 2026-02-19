@@ -8,8 +8,8 @@ import {
   approveReport,
   rejectReport,
   type ExpenseReport,
-} from "../../../lib/store";
-import { StatusBadge } from "../../../components/StatusBadge";
+} from "../../lib/store";
+import { StatusBadge } from "../../components/StatusBadge";
 
 export default function ReportDetailPage() {
   const params = useParams();
