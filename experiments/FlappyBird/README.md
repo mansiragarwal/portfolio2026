@@ -5,8 +5,30 @@ A mobile-first Flappy Bird clone built with React Native (Expo SDK 51).
 ## Run
 
 ```bash
+npm install
 npx expo start
 ```
+
+**If you see `EMFILE: too many open files` on macOS:**
+
+1. **Install Watchman** (recommended — Metro uses it and needs fewer file descriptors):
+   ```bash
+   brew install watchman
+   ```
+   Then run `npx expo start` again.
+
+2. **Raise the file limit in the same terminal** before starting:
+   ```bash
+   ulimit -n 10240
+   npx expo start
+   ```
+   Or use the script that does it for you: `npm run start:watchman`
+
+3. **Make the limit permanent** so you don’t have to run `ulimit` each time: add this line to `~/.zshrc`:
+   ```bash
+   ulimit -n 10240
+   ```
+   Restart the terminal or run `source ~/.zshrc`, then `npx expo start`.
 
 Open in Expo Go on your device or use an iOS/Android simulator. Portrait orientation is locked; the screen stays awake during play.
 

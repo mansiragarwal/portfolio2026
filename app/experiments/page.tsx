@@ -9,6 +9,13 @@ const experiments = [
       "A mobile-first Flappy Bird clone. Tap to keep the bird airborne through pipe gaps. Custom physics, XState, Skia rendering, high score persistence, and difficulty progression.",
     href: "/experiments/flappy-bird",
   },
+  {
+    title: "Employee Reimbursement App",
+    tag: "Next.js · Full-stack prototype",
+    description:
+      "Expense report lifecycle: create reports, add line items, submit for approval. Demo runs in the browser with no setup — try the flow from employee to manager.",
+    href: "/experiments/employee-reimbursement",
+  },
 ];
 
 export default function ExperimentsPage() {
