@@ -1,4 +1,4 @@
-import React, useEffect } from "react";
+import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { activateKeepAwake } from "expo-keep-awake";
