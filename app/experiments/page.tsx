@@ -3,6 +3,13 @@ import { Nav } from "../components/Nav";
 
 const experiments = [
   {
+    title: "AI Journaling App",
+    tag: "Next.js · AI Prototype",
+    description:
+      "Mental health guided journaling with personalized prompts, mood tracking, AI reflections, distress detection, and insight dashboards. All data stays on-device.",
+    href: "/experiments/ai-journal",
+  },
+  {
     title: "Flappy Bird",
     tag: "React Native · Expo",
     description:
