@@ -34,62 +34,21 @@ const features = [
   },
 ];
 
-const steps = {
-  chrome: [
-    "Download and unzip the extension file below",
-    <>
-      Open <code>chrome://extensions</code> in Chrome
-    </>,
-    <>
-      Enable <strong>Developer mode</strong> (top-right toggle)
-    </>,
-    <>
-      Click <strong>Load unpacked</strong>
-    </>,
-    "Select the unzipped folder",
-    "The extension icon appears in your toolbar — click it to configure",
-  ],
-  edge: [
-    "Download and unzip the extension file below",
-    <>
-      Open <code>edge://extensions</code> in Edge
-    </>,
-    <>
-      Enable <strong>Developer mode</strong> (bottom-left toggle)
-    </>,
-    <>
-      Click <strong>Load unpacked</strong>
-    </>,
-    "Select the unzipped folder",
-  ],
-  brave: [
-    "Download and unzip the extension file below",
-    <>
-      Open <code>brave://extensions</code> in Brave
-    </>,
-    <>
-      Enable <strong>Developer mode</strong> (top-right toggle)
-    </>,
-    <>
-      Click <strong>Load unpacked</strong>
-    </>,
-    "Select the unzipped folder",
-  ],
-  arc: [
-    "Download and unzip the extension file below",
-    <>
-      Go to <strong>Arc &gt; Extensions</strong> (or press{" "}
-      <code>Cmd+Shift+E</code>)
-    </>,
-    <>
-      Enable <strong>Developer mode</strong>
-    </>,
-    <>
-      Click <strong>Load unpacked</strong>
-    </>,
-    "Select the unzipped folder",
-  ],
-};
+const installSteps = [
+  "Download and unzip the extension file below",
+  <>
+    Open your browser&apos;s extensions page — <code>chrome://extensions</code>,{" "}
+    <code>edge://extensions</code>, <code>brave://extensions</code>, or{" "}
+    <strong>Arc &gt; Extensions</strong>
+  </>,
+  <>
+    Enable <strong>Developer mode</strong>
+  </>,
+  <>
+    Click <strong>Load unpacked</strong> and select the unzipped folder
+  </>,
+  "The extension icon appears in your toolbar — click it to configure",
+];
 
 function DownloadButton() {
   return (
@@ -117,38 +76,13 @@ function DownloadButton() {
   );
 }
 
-function BrowserTabs() {
+function InstallSteps() {
   return (
-    <div className="space-y-6">
-      {Object.entries(steps).map(([browser, browserSteps]) => (
-        <details key={browser} className="group">
-          <summary className="flex cursor-pointer items-center gap-3 rounded-lg border border-[#EAE4DE] bg-white px-5 py-3.5 text-[15px] font-medium text-[#1A1A1A] transition-colors hover:border-[#C74B6F] hover:bg-[#FFFDFB]">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 16 16"
-              fill="none"
-              className="text-[#A09893] transition-transform group-open:rotate-90"
-              aria-hidden
-            >
-              <path
-                d="M6 12L10 8L6 4"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            {browser.charAt(0).toUpperCase() + browser.slice(1)}
-          </summary>
-          <ol className="ml-5 mt-3 list-decimal space-y-2 pl-5 text-[14px] leading-[1.7] text-[#6B6360]">
-            {browserSteps.map((step, i) => (
-              <li key={i}>{step}</li>
-            ))}
-          </ol>
-        </details>
+    <ol className="list-decimal space-y-3 pl-5 text-[15px] leading-[1.7] text-[#6B6360]">
+      {installSteps.map((step, i) => (
+        <li key={i}>{step}</li>
       ))}
-    </div>
+    </ol>
   );
 }
 
@@ -325,7 +259,7 @@ export default function SiteBlockerPage() {
           <h2 className="mb-5 text-[13px] font-semibold uppercase tracking-[0.08em] text-[#A09893]">
             Install instructions
           </h2>
-          <BrowserTabs />
+          <InstallSteps />
         </section>
 
         {/* Tech */}
