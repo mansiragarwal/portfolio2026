@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nope — Do the task first</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 460px;
+      width: 100%;
+      padding: 24px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .header-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .task-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .task-card h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .task-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .actions .btn {
+      flex: 1;
+      padding: 12px 16px;
+      font-size: 14px;
+    }
+
+    .shame {
+      text-align: center;
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: var(--radius);
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.15);
+      display: none;
+    }
+
+    .shame p {
+      font-size: 13px;
+      color: var(--red);
+      font-weight: 500;
+    }
+
+    .shame .counter {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 8px 0 4px;
+    }
+
+    .cooldown-screen {
+      text-align: center;
+      display: none;
+    }
+
+    .cooldown-screen .header-icon {
+      font-size: 56px;
+    }
+
+    .cooldown-screen h1 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .cooldown-screen p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .cooldown-timer {
+      font-size: 40px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: var(--accent);
+      margin: 20px 0;
+      letter-spacing: -0.02em;
+    }
+
+    .task-screen { display: block; }
+
+    .empty-state {
+      text-align: center;
+      display: none;
+    }
+
+    .empty-state .header-icon { font-size: 48px; }
+
+    .empty-state h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 12px 0 8px;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .add-task-form {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .add-task-form .input { flex: 1; }
+
+    .quick-tasks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .quick-task-btn {
+      padding: 6px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--text-muted);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .quick-task-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .nudge {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 16px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="cooldown-screen" id="cooldownScreen">
+      <div class="header-icon">🧊</div>
+      <h1>You're on cooldown</h1>
+      <p>You skipped the task. This site is locked for a bit.</p>
+      <div class="cooldown-timer" id="cooldownTimer">5:00</div>
+      <p style="font-size: 12px; color: var(--text-muted);">Maybe go do the task anyway?</p>
+    </div>
+
+    <div class="task-screen" id="taskScreen">
+      <div class="header">
+        <div class="header-icon">🚫</div>
+        <h1>Not so fast</h1>
+        <p>Complete this task first, then you can go back.</p>
+      </div>
+
+      <div class="task-card" id="taskCard">
+        <h2 id="taskTitle">Loading...</h2>
+        <p id="taskDescription"></p>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-success" id="completeBtn">Done ✓</button>
+        <button class="btn btn-ghost" id="skipBtn">Skip</button>
+      </div>
+
+      <div class="shame" id="shameBox">
+        <p>Times you've chickened out</p>
+        <div class="counter" id="skipCount">0</div>
+        <p>Site blocked for 5 minutes. Go touch grass.</p>
+      </div>
+
+      <div class="nudge" id="nudge"></div>
+    </div>
+
+    <div class="empty-state" id="emptyState">
+      <div class="header-icon">📋</div>
+      <h2>No tasks in queue</h2>
+      <p>Add some tasks so we can redirect you to something useful.</p>
+      <div class="add-task-form">
+        <input type="text" class="input" id="newTaskInput" placeholder="Add a task...">
+        <button class="btn btn-primary" id="addTaskBtn">Add</button>
+      </div>
+      <div class="quick-tasks">
+        <button class="quick-task-btn" data-task="Do 10 push-ups">10 push-ups</button>
+        <button class="quick-task-btn" data-task="Drink water">Drink water</button>
+        <button class="quick-task-btn" data-task="Stretch for 2 min">Stretch</button>
+        <button class="quick-task-btn" data-task="5 deep breaths">Deep breaths</button>
+        <button class="quick-task-btn" data-task="Clean your desk">Clean desk</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="blocked.js"></script>
+</body>
+</html>

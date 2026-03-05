@@ -1,0 +1,14 @@
+---
+description: Always check for MCP tools before using shell/curl to interact with external services
+alwaysApply: true
+---
+
+# MCP Tools First
+
+Before using curl, shell scripts, or manual HTTP requests to interact with any external service:
+
+1. Check `/mcps/` for available MCP server tool descriptors
+2. Read the tool schema to understand parameters
+3. Use `CallMcpTool` to invoke the tool directly
+
+Never manually implement MCP protocol (SSE connections, session management, JSON-RPC handshakes) when Cursor's built-in `CallMcpTool` handles it automatically.

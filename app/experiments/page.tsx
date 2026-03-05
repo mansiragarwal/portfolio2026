@@ -23,6 +23,13 @@ const experiments = [
       "Expense report lifecycle: create reports, add line items, submit for approval. Demo runs in the browser with no setup — try the flow from employee to manager.",
     href: "/experiments/employee-reimbursement",
   },
+  {
+    title: "Site Blocker",
+    tag: "Chrome Extension · Productivity",
+    description:
+      "A browser extension that intercepts distracting sites and makes you complete a quick task first. Configurable schedule, task queue, skip penalties, and streaks.",
+    href: "/experiments/site-blocker",
+  },
 ];
 
 export default function ExperimentsPage() {
