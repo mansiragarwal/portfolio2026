@@ -3,25 +3,11 @@ import { Nav } from "../components/Nav";
 
 const experiments = [
   {
-    title: "AI Journaling App",
-    tag: "Next.js · AI Prototype",
+    title: "Outfit Builder",
+    tag: "Next.js · AI · Computer Vision",
     description:
-      "Mental health guided journaling with personalized prompts, mood tracking, AI reflections, distress detection, and insight dashboards. All data stays on-device.",
-    href: "/experiments/ai-journal",
-  },
-  {
-    title: "Flappy Bird",
-    tag: "React Native · Expo",
-    description:
-      "A mobile-first Flappy Bird clone. Tap to keep the bird airborne through pipe gaps. Custom physics, XState, Skia rendering, high score persistence, and difficulty progression.",
-    href: "/experiments/flappy-bird",
-  },
-  {
-    title: "Employee Reimbursement App",
-    tag: "Next.js · Full-stack prototype",
-    description:
-      "Expense report lifecycle: create reports, add line items, submit for approval. Demo runs in the browser with no setup — try the flow from employee to manager.",
-    href: "/experiments/employee-reimbursement",
+      "Upload a Pinterest outfit and AI extracts clothing items, color palette, and silhouette. Get shopping alternatives and match pieces from your own wardrobe.",
+    href: "/experiments/outfit-builder",
   },
   {
     title: "Site Blocker",
@@ -29,6 +15,20 @@ const experiments = [
     description:
       "A browser extension that intercepts distracting sites and makes you complete a quick task first. Configurable schedule, task queue, skip penalties, and streaks.",
     href: "/experiments/site-blocker",
+  },
+  {
+    title: "AI Journaling App",
+    tag: "Next.js · AI Prototype",
+    description:
+      "Mental health guided journaling with personalized prompts, mood tracking, AI reflections, distress detection, and insight dashboards. All data stays on-device.",
+    href: "/experiments/ai-journal",
+  },
+  {
+    title: "Employee Reimbursement App",
+    tag: "Next.js · Full-stack prototype",
+    description:
+      "Expense report lifecycle: create reports, add line items, submit for approval. Demo runs in the browser with no setup — try the flow from employee to manager.",
+    href: "/experiments/employee-reimbursement",
   },
 ];
 
